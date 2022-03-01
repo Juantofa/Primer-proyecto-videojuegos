@@ -13,6 +13,8 @@ public class Player : MonoBehaviour
     public float fireRate = 0.5f;
     private float nextFire = 0.0f;
     private bool superShoot = false;
+    private float charge = 0f;
+    private float totalChargeNeeded = 3f;
 
     // Start is called before the first frame update
     void Start()
@@ -44,23 +46,37 @@ public class Player : MonoBehaviour
         {
             superShoot = !superShoot;
         }
-        
 
-        if (Input.GetKeyDown(KeyCode.Space) && Time.time > nextFire)
+        if (superShoot)
         {
-            if (superShoot)
-            {   
-                nextFire = Time.time + fireRate;
-                Instantiate(superBullet, transform.position, transform.rotation);
-
-            }
-            else
+            if (Input.GetKeyDown(KeyCode.Space) && Time.time > nextFire)
             {
                 nextFire = Time.time + fireRate;
                 Instantiate(bullet, transform.position, transform.rotation);
             }
         }
+        else
+        {
+            if (Input.GetKey(KeyCode.Space))
+            {
+                charge += Time.deltaTime;
+            }
+            if (Input.GetKeyUp(KeyCode.Space))
+            {
+                AttemptShoot();
+            }
+        }
        
+
+    }
+    
+    public void AttemptShoot()
+    {
+        if (charge >= totalChargeNeeded)
+        {
+          Instantiate(superBullet, transform.position, transform.rotation);
+        }
+        charge = 0;
     }
 
 }
