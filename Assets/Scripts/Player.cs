@@ -8,7 +8,12 @@ public class Player : MonoBehaviour
 {
     [SerializeField] float speed;
     [SerializeField] GameObject bullet;
+    [SerializeField] GameObject superBullet;
     float minX, maxX, minY, maxY;
+    public float fireRate = 0.5f;
+    private float nextFire = 0.0f;
+    private bool superShoot = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -35,9 +40,27 @@ public class Player : MonoBehaviour
         transform.position = new Vector2(
             Mathf.Clamp(transform.position.x,minX, maxX),
             Mathf.Clamp(transform.position.y,minY, maxY));
-    
-        if(Input.GetKeyDown(KeyCode.Space)){
-            Instantiate(bullet, transform.position, transform.rotation);
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            superShoot = !superShoot;
         }
+        
+
+        if (Input.GetKeyDown(KeyCode.Space) && Time.time > nextFire)
+        {
+            if (superShoot)
+            {   
+                nextFire = Time.time + fireRate;
+                Instantiate(superBullet, transform.position, transform.rotation);
+
+            }
+            else
+            {
+                nextFire = Time.time + fireRate;
+                Instantiate(bullet, transform.position, transform.rotation);
+            }
+        }
+       
     }
+
 }

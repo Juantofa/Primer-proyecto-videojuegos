@@ -10,6 +10,7 @@ public class Animal : MonoBehaviour
     [SerializeField] float speed;
     bool direction = true;
     float minX, maxX, minY, maxY;
+    public int health = 5;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,6 +23,7 @@ public class Animal : MonoBehaviour
         maxX = esqSupDer.x;
         minY = esqInfIzq.y;
         maxY = esqSupDer.y;
+        this.gameObject.tag = "Animal";
     }
 
     // Update is called once per frame
@@ -46,5 +48,13 @@ public class Animal : MonoBehaviour
             myBody.velocity = new Vector2(-speed, myBody.velocity.y);
         }
 
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (health == 0)
+        {
+            Destroy(this.gameObject);
+        }
     }
 }
