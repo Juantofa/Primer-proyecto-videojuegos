@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
     [SerializeField] GameObject bullet;
     [SerializeField] GameObject superBullet;
     float minX, maxX, minY, maxY;
-    public float fireRate = 0.5f;
+    [SerializeField] float fireRate;
     private float nextFire = 0.0f;
     private bool superShoot = false;
     private float charge = 0f;
